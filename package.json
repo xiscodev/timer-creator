@@ -1,6 +1,6 @@
 {
   "name": "timer-creator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library to easy manage intervals and timeouts",
   "author": "José Diaz <info@josediaz.site> (https://josediaz.site)",
   "license": "MIT",
