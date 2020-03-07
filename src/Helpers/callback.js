@@ -11,6 +11,4 @@ const launchCallback = (callback, args) => {
   }
 }
 
-export {
-  launchCallback
-}
+export default launchCallback

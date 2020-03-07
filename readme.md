@@ -34,7 +34,7 @@ Then use it to establish a periodic callback execution until condition
   const TIMER_NAME = 'myIntervalName'
 
   function myFunction() {
-    //
+    // YOUR OWN CODE AND STUFF
     hasConditionMeeted && destroyInterval(TIMER_NAME)
   }
 
@@ -48,10 +48,12 @@ Or one time callback execution
   import { createTimeout, TimeUnit } from "timer-creator";
 
   function myFunction(arg1, arg2) {
-    // 
+    // YOUR OWN CODE AND STUFF
   }
 
   createTimeout('myTimeoutName', 30 * TimeUnit.SECOND, myFunction, [arg1, arg2])
 ```
+
+You can always refer to library documentation [here](api.md)
 
 Powered by <a href="https://deepertech.com" target="_blank">Deepertech</a>

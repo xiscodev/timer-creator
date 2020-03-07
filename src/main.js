@@ -1,8 +1,8 @@
-import { MILISECOND, SECOND, MINUTE, HOUR, DAY } from 'Constants/timeUnit'
+import TimeUnit from 'Constants/timeUnit'
 import { existInterval, getInterval, createInterval, destroyInterval } from 'Creators/interval'
 import { existTimeout, getTimeout, createTimeout, destroyTimeout } from 'Creators/timeout'
 
-exports.TimeUnit = { MILISECOND, SECOND, MINUTE, HOUR, DAY }
+exports.TimeUnit = TimeUnit
 // INTERVAL
 exports.existInterval = existInterval
 exports.getInterval = getInterval
