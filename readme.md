@@ -11,20 +11,17 @@ A simple library to manage timeouts and intervals.
 
 First you need to import it in your project
 
-- The require way
+_The require way_
 
 ```js
 let { createInterval, destroyInterval, TimeUnit } = require("timer-creator");
 ```
 
-- The import way
+_The import way_
 
 ```js
 import { createTimeout, destroyTimeout, TimeUnit } from "timer-creator";
 ```
-.
-.
-.
 
 Then use it to establish a periodic callback execution until condition
 
