@@ -1,58 +1,28 @@
-/* eslint-disable no-prototype-builtins */
+const _isMap = (toEvaluate) => {
+  return !!toEvaluate && toEvaluate.toString() === '[object Map]'
+}
+
+const pushToStore = (store, pushableKey, pushableItem) => {
+  if (!!store && !!pushableKey && !!pushableItem) {
+    _isMap(store) && store.set(pushableKey, pushableItem)
+  }
+}
+
+const getStoredItem = (store, storedKey) => {
+  return _isMap(store) && store.get(storedKey)
+}
+
 const isStored = (store, storedKey) => {
-  let exist = false
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      exist = true
-      break
-    }
-  }
-  return exist
-}
-
-const getStoredIndex = (store, storedKey) => {
-  let storedIndex = null
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      storedIndex = index
-      break
-    }
-  }
-  return storedIndex
-}
-
-const getStoredValue = (store, storedKey) => {
-  let storedValue = null
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      storedValue = store[index][storedKey]
-      break
-    }
-  }
-  return storedValue
-}
-
-const getStoredObject = (store, storedIndex) => {
-  return store[storedIndex]
-}
-
-const pushToStore = (store, objectToStore) => {
-  store.push(objectToStore)
+  return _isMap(store) && store.has(storedKey)
 }
 
 const removeFromStore = (store, storedKey) => {
-  const storedIndex = getStoredIndex(store, storedKey)
-  storedIndex !== null && store.splice(storedIndex, 1)
+  _isMap(store) && store.delete(storedKey)
 }
 
 export {
-  isStored,
-  getStoredIndex,
-  getStoredValue,
-  getStoredObject,
   pushToStore,
+  getStoredItem,
+  isStored,
   removeFromStore
 }

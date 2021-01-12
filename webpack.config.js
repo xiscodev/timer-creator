@@ -12,26 +12,26 @@ const config = {
   output: {
     path: DIST_DIR,
     publicPath: DIST_DIR,
-    filename: 'main.js'
+    filename: 'main.js',
   },
   resolve: {
     extensions: ['.js'],
-    modules: [SRC_DIR, 'node_modules']
+    modules: [SRC_DIR, 'node_modules'],
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['eslint-loader']
-      }
-    ]
-  }
+        use: ['eslint-loader'],
+      },
+    ],
+  },
 }
 if (!isDev) {
   config.optimization = {
     minimize: true,
-    minimizer: [new TerserPlugin()]
+    minimizer: [new TerserPlugin()],
   }
 }
 

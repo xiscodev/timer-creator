@@ -1,4 +1,4 @@
-import { isStored, pushToStore, removeFromStore, getStoredValue } from 'Helpers/store'
+import { pushToStore, getStoredItem, isStored, removeFromStore } from 'Helpers/store'
 import launchCallback from 'Helpers/callback'
 
 /**
@@ -21,16 +21,6 @@ const existTimeout = (timeoutName) => {
 
 /**
  * @access private
- * @function _appendTimeout
- * @description Push to store given timeoutObject.
- * @param {Object} timeoutObject
- */
-const _appendTimeout = (timeoutObject) => {
-  pushToStore(timeoutStore, timeoutObject)
-}
-
-/**
- * @access private
  * @function _removeTimeout
  * @description Removes stored timeout with given timeoutName.
  * @param {string} timeoutName
@@ -47,7 +37,7 @@ const _removeTimeout = (timeoutName) => {
  * @returns {number}
  */
 const getTimeout = (timeoutName) => {
-  return getStoredValue(timeoutStore, timeoutName)
+  return getStoredItem(timeoutStore, timeoutName)
 }
 
 /**
@@ -67,7 +57,7 @@ const createTimeout = (timeoutName, amountTime, callback, args) => {
       _removeTimeout(timeoutName) // remove from store on timeout
       launchCallback(callback, args)
     }, amountTime)
-    _appendTimeout({ [timeoutName]: timeoutId })
+    pushToStore(timeoutStore, timeoutName, timeoutId)
   }
 }
 
