@@ -3,9 +3,9 @@ import {
   _resetStore,
   _removeTimeout,
   createTimeout,
-  // existTimeout,
-  // getTimeout,
-  // destroyTimeout,
+  existTimeout,
+  getTimeout,
+  destroyTimeout,
 } from './timeout'
 
 // ENVIRONMENT VARIABLES
@@ -14,7 +14,7 @@ jest.useFakeTimers()
 const wait = 3000
 const args = ['many', 'arguments', 'here']
 const TIMEOUT_NAME = 'TIMEOUT_TEST_NAME'
-// const OTHER_TIMEOUT_NAME = 'OTHER_TIMEOUT_TEST_NAME'
+const OTHER_TIMEOUT_NAME = 'OTHER_TIMEOUT_TEST_NAME'
 
 const _resetEnv = () => {
   _resetStore()
@@ -74,7 +74,7 @@ describe('_removeTimeout', () => {
     expect(_removeTimeout())
   })
 
-  it('should be zero after remove interval', () => {
+  it('should be zero after remove timeout', () => {
     _resetEnv()
     _store.set(_dummySetKey, _dummySetValue)
 
@@ -161,5 +161,113 @@ describe('createTimeout', () => {
 
     jest.advanceTimersByTime(wait)
     expect(testFn).toHaveBeenCalledTimes(1)
+  })
+})
+
+
+describe('existTimeout', () => {
+  it('should exist', () => {
+    expect(existTimeout).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(existTimeout())
+  })
+
+  it('should be false if timeout does not exist', () => {
+    _resetEnv()
+
+    expect(existTimeout(TIMEOUT_NAME)).toBeFalsy()
+  })
+
+  it('should be true if timeout exist', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    expect(existTimeout(TIMEOUT_NAME)).toBeTruthy()
+  })
+
+  it('should be false if timeout does not exist and not on initial state', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    expect(existTimeout(OTHER_TIMEOUT_NAME)).toBeFalsy()
+  })
+})
+
+
+describe('getTimeout', () => {
+  it('should exist', () => {
+    expect(getTimeout).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(getTimeout())
+  })
+
+  it('should be undefined if name does not exist', () => {
+    _resetEnv()
+    expect(getTimeout(TIMEOUT_NAME)).toBeUndefined()
+  })
+
+  it('should not to be undefined if name exist', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    expect(getTimeout(TIMEOUT_NAME)).not.toBeUndefined()
+  })
+
+  it('should be undefined if name does not exist and not initial state', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    expect(getTimeout(OTHER_TIMEOUT_NAME)).toBeUndefined()
+  })
+})
+
+
+describe('destroyTimeout', () => {
+  it('should exist', () => {
+    expect(destroyTimeout).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(destroyTimeout())
+  })
+
+  it('should destroy given name from store if exist', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    destroyTimeout(TIMEOUT_NAME)
+
+    expect(getTimeout(TIMEOUT_NAME)).toBeUndefined()
+  })
+
+  it('should not destroy given others name from store', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    destroyTimeout(OTHER_TIMEOUT_NAME)
+
+    expect(getTimeout(TIMEOUT_NAME)).not.toBeUndefined()
+  })
+
+  it('should not run callback if destroyed before wait time', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createTimeout(TIMEOUT_NAME, testFn, wait)
+
+    destroyTimeout(TIMEOUT_NAME)
+
+    jest.advanceTimersByTime(wait)
+
+    expect(testFn).not.toBeCalled()
   })
 })
