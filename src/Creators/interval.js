@@ -1,88 +1,92 @@
-import { isStored, pushToStore, removeFromStore, getStoredValue } from 'Helpers/store'
-import launchCallback from 'Helpers/callback'
+import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore } from '../Helpers/store'
+import launchCallback from '../Helpers/callback'
 
 /**
  * @access private
  * @description Store for intervals.
- * @type {Array}
+ * @type {Map}
  */
-const intervalStore = []
-
-/**
- * @access public
- * @function existInterval
- * @description Checks whether exist interval with given intervalName.
- * @param {string} intervalName
- * @returns {boolean}
- */
-const existInterval = (intervalName) => {
-  return isStored(intervalStore, intervalName)
-}
+const _store = initializeStore()
 
 /**
  * @access private
- * @function _appendInterval
- * @description Push to store given intervalObject.
- * @param {Object} intervalObject
+ * @function _resetStore
+ * @description Clears interval _store.
  */
-const _appendInterval = (intervalObject) => {
-  pushToStore(intervalStore, intervalObject)
+const _resetStore = () => {
+  _clearStore(_store)
 }
 
 /**
  * @access private
  * @function _removeInterval
- * @description Removes stored intervals with given intervalName.
- * @param {string} intervalName
+ * @description Removes stored intervals with given name.
+ * @param {string} name interval name
  */
-const _removeInterval = (intervalName) => {
-  removeFromStore(intervalStore, intervalName)
+const _removeInterval = (name) => {
+  removeFromStore(_store, name)
+}
+
+/**
+ * @access public
+ * @function existInterval
+ * @description Checks whether exist interval with given name.
+ * @param {string} name interval name
+ * @returns {boolean} true or false wheter interval is stored or not
+ */
+const existInterval = (name) => {
+  return isStored(_store, name)
 }
 
 /**
  * @access public
  * @function getInterval
- * @description Retrieves interval value for given intervalName.
- * @param {string} intervalName
- * @returns {number}
+ * @description Retrieves interval value for given name.
+ * @param {string} name interval name
+ * @returns {number} interval number reference
  */
-const getInterval = (intervalName) => {
-  return getStoredValue(intervalStore, intervalName)
+const getInterval = (name) => {
+  return getStoredItem(_store, name)
 }
 
 /**
  * @access public
  * @function createInterval
- * @description Creates and store interval object with given intervalName,
- * to execute callback function on the amountTime specified with given args.
- * @param {string} intervalName
- * @param {TimeUnit} amountTime
- * @param {Function} callback
- * @param {string|Array|NULL} args
+ * @description Creates and _store interval object with given name,
+ * to execute callback function on the waitTime specified with given args.
+ * @param {string} name interval name
+ * @param {Function} callback the function to be executed as a callback
+ * @param {number} waitTime the waiting time for the interval
+ * @param {string|Array|null} args arguments to be passed to the callback function
  */
-const createInterval = (intervalName, amountTime, callback, args) => {
-  if (!existInterval(intervalName)) {
-    const intervalId = setInterval(() => { launchCallback(callback, args) }, amountTime)
-    _appendInterval({ [intervalName]: intervalId })
+const createInterval = (name, callback, waitTime, args) => {
+  if (!existInterval(name)) {
+    const reference = setInterval(() => {
+      launchCallback(callback, args)
+    }, waitTime)
+    pushToStore(_store, name, reference)
   }
 }
 
 /**
  * @access public
  * @function destroyInterval
- * @description Destroy interval with given intervalName and removes it from store.
- * @param {string} intervalName
+ * @description Destroy interval with given name and removes it from _store.
+ * @param {string} name interval name
  */
-const destroyInterval = (intervalName) => {
-  if (existInterval(intervalName)) {
-    clearInterval(getInterval(intervalName))
-    _removeInterval(intervalName)
+const destroyInterval = (name) => {
+  if (existInterval(name)) {
+    clearInterval(getInterval(name))
+    _removeInterval(name)
   }
 }
 
 export {
+  _store,
+  _resetStore,
+  _removeInterval,
   existInterval,
   getInterval,
   createInterval,
-  destroyInterval
+  destroyInterval,
 }

@@ -1,6 +1,6 @@
 /**
  * @description Contains time unit constants
- * @constant {Object}
+ * @constant {object}
  */
 const TimeUnit = {
   /**
@@ -27,7 +27,7 @@ const TimeUnit = {
    * @description Time unit referent to Day in miliseconds
    * @constant {number}
    */
-  DAY: 86400000
+  DAY: 86400000,
 }
 
 export default TimeUnit

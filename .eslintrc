@@ -1,17 +1,24 @@
 {
   "env": {
     "browser": true,
+    "commonjs": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
+  "plugins": [
+    "import",
+    "jest",
+    "node",
+    "promise",
+    "jsdoc"
+  ],
   "extends": [
-    "standard",
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:jsdoc/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 2017,
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
+    "sourceType": "module"
   },
   "rules": {
     "indent": ["error", 2],
@@ -30,7 +37,15 @@
         "allowTemplateLiterals": true
       }
     ],
-    "semi": [2, "never"]
+    "semi": [2, "never"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "never"
+    }],
+    "no-prototype-builtins": "off"
   },
   "settings": {
     "import/resolver": {"node": {"path": ["src"] }},
