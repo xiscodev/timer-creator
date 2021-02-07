@@ -1,4 +1,14 @@
-import { pushToStore, getStoredItem, isStored, removeFromStore } from './store'
+import {
+  _isMap,
+  _getStoreSize,
+  _isEmptyStore,
+  _clearStore,
+  initializeStore,
+  pushToStore,
+  getStoredItem,
+  isStored,
+  removeFromStore,
+} from './store'
 
 // ENVIRONMENT VARIABLES
 let store = new Map()
@@ -19,6 +29,112 @@ const _resetEnv = () => {
 
 
 // TESTS
+describe('_isMap', () => {
+  it('should exist', () => {
+    expect(_isMap).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(_isMap())
+  })
+
+  it('should be true on Map object', () => {
+    expect(_isMap(store)).toBeTruthy()
+  })
+
+  it('should be false on non Map object', () => {
+    expect(_isMap([])).toBeFalsy()
+  })
+})
+
+
+describe('_getStoreSize', () => {
+  it('should exist', () => {
+    expect(_getStoreSize).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(_getStoreSize())
+  })
+
+  it('should return zero on empty store', () => {
+    expect(_getStoreSize(store)).toBe(0)
+  })
+
+  it('should return one on store with an element', () => {
+    expect(_getStoreSize(storeWithElement)).toBe(1)
+  })
+
+  it('should return null on non store element', () => {
+    expect(_getStoreSize([])).toBeNull()
+  })
+})
+
+
+describe('_isEmptyStore', () => {
+  it('should exist', () => {
+    expect(_isEmptyStore).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(_isEmptyStore())
+  })
+
+  it('should be true on empty store', () => {
+    expect(_isEmptyStore(store)).toBeTruthy()
+  })
+
+  it('should be false on non empty store', () => {
+    expect(_isEmptyStore(storeWithElement)).toBeFalsy()
+  })
+
+  it('should return null on non store element', () => {
+    expect(_isEmptyStore([])).toBeNull()
+  })
+})
+
+
+describe('_clearStore', () => {
+  it('should exist', () => {
+    expect(_clearStore).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(_clearStore())
+  })
+
+  it('should empty an store with elements', () => {
+    _resetEnv()
+    _clearStore(storeWithElement)
+
+    expect(_getStoreSize(storeWithElement)).toBe(0)
+  })
+})
+
+
+describe('initializeStore', () => {
+  it('should exist', () => {
+    expect(initializeStore).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(initializeStore())
+  })
+
+  it('should return a map object', () => {
+    const newStore = initializeStore()
+
+    expect(newStore).toEqual(store)
+  })
+
+  it('should return an empty map object', () => {
+    const newStore = initializeStore()
+
+    expect(newStore.size).toBe(0)
+  })
+})
+
+
 describe('pushToStore', () => {
   it('should exist', () => {
     expect(pushToStore).not.toBeUndefined()
@@ -41,6 +157,7 @@ describe('pushToStore', () => {
   })
 })
 
+
 describe('getStoredItem', () => {
   it('should exist', () => {
     expect(getStoredItem).not.toBeUndefined()
@@ -61,6 +178,7 @@ describe('getStoredItem', () => {
   })
 })
 
+
 describe('isStored', () => {
   it('should exist', () => {
     expect(isStored).not.toBeUndefined()
@@ -78,6 +196,7 @@ describe('isStored', () => {
     expect(isStored(storeWithElement, wrongKey)).toBeFalsy()
   })
 })
+
 
 describe('removeFromStore', () => {
   it('should exist', () => {

@@ -2,6 +2,26 @@ const _isMap = (toEvaluate) => {
   return !!toEvaluate && toEvaluate.toString() === '[object Map]'
 }
 
+const _getStoreSize = (store) => {
+  return _isMap(store) 
+    ? store.size
+    : null
+}
+
+const _isEmptyStore = (store) => {
+  return _isMap(store)
+    ? _getStoreSize(store) === 0
+    : null
+}
+
+const _clearStore = (store) => {
+  _isMap(store) && store.clear()
+}
+
+const initializeStore  = () => {
+  return new Map()
+}
+
 const pushToStore = (store, pushableKey, pushableItem) => {
   if (!!store && !!pushableKey && !!pushableItem) {
     _isMap(store) && store.set(pushableKey, pushableItem)
@@ -21,8 +41,13 @@ const removeFromStore = (store, storedKey) => {
 }
 
 export {
+  _isMap,
+  _getStoreSize,
+  _isEmptyStore,
+  _clearStore,
+  initializeStore,
   pushToStore,
   getStoredItem,
   isStored,
-  removeFromStore
+  removeFromStore,
 }
