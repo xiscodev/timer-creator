@@ -27,9 +27,10 @@
     "clean": "rimraf dist",
     "postclean": "npm run test:cover",
     "gen-api-docs": "documentation build src/** -f md > api.md",
-    "test": "jest",
-    "test:watch": "npm run test -- --watchAll --verbose",
-    "test:cover": "npm run test -- --coverage --verbose"
+    "test": "jest --verbose --runInBand",
+    "test:watch": "npm run test -- --watch",
+    "test:watch-all": "npm run test -- --watchAll",
+    "test:cover": "npm run test -- --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
