@@ -1,4 +1,4 @@
-import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore  } from '../Helpers/store'
+import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore } from '../Helpers/store'
 import launchCallback from '../Helpers/callback'
 
 /**
@@ -21,7 +21,7 @@ const _resetStore = () => {
  * @access private
  * @function _removeInterval
  * @description Removes stored intervals with given name.
- * @param {string} name
+ * @param {string} name interval name
  */
 const _removeInterval = (name) => {
   removeFromStore(_store, name)
@@ -31,8 +31,8 @@ const _removeInterval = (name) => {
  * @access public
  * @function existInterval
  * @description Checks whether exist interval with given name.
- * @param {string} name
- * @returns {boolean}
+ * @param {string} name interval name
+ * @returns {boolean} true or false wheter interval is stored or not
  */
 const existInterval = (name) => {
   return isStored(_store, name)
@@ -42,8 +42,8 @@ const existInterval = (name) => {
  * @access public
  * @function getInterval
  * @description Retrieves interval value for given name.
- * @param {string} name
- * @returns {number}
+ * @param {string} name interval name
+ * @returns {number} interval number reference
  */
 const getInterval = (name) => {
   return getStoredItem(_store, name)
@@ -54,10 +54,10 @@ const getInterval = (name) => {
  * @function createInterval
  * @description Creates and _store interval object with given name,
  * to execute callback function on the waitTime specified with given args.
- * @param {string} name
- * @param {Function} callback
- * @param {TimeUnit} waitTime
- * @param {string|Array|NULL} args
+ * @param {string} name interval name
+ * @param {Function} callback the function to be executed as a callback
+ * @param {number} waitTime the waiting time for the interval
+ * @param {string|Array|null} args arguments to be passed to the callback function
  */
 const createInterval = (name, callback, waitTime, args) => {
   if (!existInterval(name)) {
@@ -72,7 +72,7 @@ const createInterval = (name, callback, waitTime, args) => {
  * @access public
  * @function destroyInterval
  * @description Destroy interval with given name and removes it from _store.
- * @param {string} name
+ * @param {string} name interval name
  */
 const destroyInterval = (name) => {
   if (existInterval(name)) {

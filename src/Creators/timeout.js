@@ -21,7 +21,7 @@ const _resetStore = () => {
  * @access private
  * @function _removeTimeout
  * @description Removes stored timeout with given name.
- * @param {string} name
+ * @param {string} name timeout name
  */
 const _removeTimeout = (name) => {
   removeFromStore(_store, name)
@@ -31,8 +31,8 @@ const _removeTimeout = (name) => {
  * @access public
  * @function existTimeout
  * @description Checks whether exist timeout with given name.
- * @param {string} name
- * @returns {boolean}
+ * @param {string} name timeout name
+ * @returns {boolean} true or false wheter timeout is stored or not
  */
 const existTimeout = (name) => {
   return isStored(_store, name)
@@ -42,8 +42,8 @@ const existTimeout = (name) => {
  * @access public
  * @function getTimeout
  * @description Retrieves timeout value for given name.
- * @param {string} name
- * @returns {number}
+ * @param {string} name timeout name
+ * @returns {number} timeout number reference
  */
 const getTimeout = (name) => {
   return getStoredItem(_store, name)
@@ -55,10 +55,10 @@ const getTimeout = (name) => {
  * @description Creates and store timeout object with given name,
  * to execute callback function on the waitTime specified with given args,
  * its removed from store when callback is executed.
- * @param {string} name
- * @param {Function} callback
- * @param {TimeUnit} waitTime
- * @param {string|Array|NULL} args
+ * @param {string} name timeout name
+ * @param {Function} callback the function to be executed as a callback
+ * @param {number} waitTime the waiting time for the timeout
+ * @param {string|Array|null} args arguments to be passed to the callback function
  */
 const createTimeout = (name, callback, waitTime, args) => {
   if (!existTimeout(name)) {
@@ -74,7 +74,7 @@ const createTimeout = (name, callback, waitTime, args) => {
  * @access public
  * @function destroyTimeout
  * @description Destroy timeout with given name and removes it from store.
- * @param {string} name
+ * @param {string} name timeout name
  */
 const destroyTimeout = (name) => {
   if (existTimeout(name)) {

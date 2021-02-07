@@ -1,6 +1,6 @@
 /**
  * @description Contains time unit constants
- * @constant {Object}
+ * @constant {object}
  */
 const TimeUnit = {
   /**
