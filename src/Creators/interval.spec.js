@@ -85,71 +85,6 @@ describe('_removeInterval', () => {
 })
 
 
-describe('existInterval', () => {
-  it('should exist', () => {
-    expect(existInterval).not.toBeUndefined()
-  })
-
-  it('should be a function', () => {
-    expect(existInterval())
-  })
-
-  it('should be false if interval does not exist', () => {
-    _resetEnv()
-
-    expect(existInterval(INTERVAL_NAME)).toBeFalsy()
-  })
-
-  it('should be true if interval exist', () => {
-    _resetEnv()
-    const testFn = jest.fn()
-    createInterval(INTERVAL_NAME, testFn, wait)
-
-    expect(existInterval(INTERVAL_NAME)).toBeTruthy()
-  })
-
-  it('should be false if interval does not exist and not on initial state', () => {
-    _resetEnv()
-    const testFn = jest.fn()
-    createInterval(INTERVAL_NAME, testFn, wait)
-
-    expect(existInterval(OTHER_INTERVAL_NAME)).toBeFalsy()
-  })
-})
-
-
-describe('getInterval', () => {
-  it('should exist', () => {
-    expect(getInterval).not.toBeUndefined()
-  })
-
-  it('should be a function', () => {
-    expect(getInterval())
-  })
-
-  it('should be undefined if name does not exist', () => {
-    _resetEnv()
-    expect(getInterval(INTERVAL_NAME)).toBeUndefined()
-  })
-
-  it('should not to be undefined if name exist', () => {
-    _resetEnv()
-    const testFn = jest.fn()
-    createInterval(INTERVAL_NAME, testFn, wait)
-
-    expect(getInterval(INTERVAL_NAME)).not.toBeUndefined()
-  })
-
-  it('should be undefined if name does not exist and not initial state', () => {
-    _resetEnv()
-    const testFn = jest.fn()
-    createInterval(INTERVAL_NAME, testFn, wait)
-
-    expect(getInterval(OTHER_INTERVAL_NAME)).toBeUndefined()
-  })
-})
-
-
 describe('createInterval', () => {
   it('should exist', () => {
     expect(createInterval).not.toBeUndefined()
@@ -226,6 +161,71 @@ describe('createInterval', () => {
 
     jest.advanceTimersByTime(wait)
     expect(testFn).toHaveBeenCalledTimes(1)
+  })
+})
+
+
+describe('existInterval', () => {
+  it('should exist', () => {
+    expect(existInterval).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(existInterval())
+  })
+
+  it('should be false if interval does not exist', () => {
+    _resetEnv()
+
+    expect(existInterval(INTERVAL_NAME)).toBeFalsy()
+  })
+
+  it('should be true if interval exist', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createInterval(INTERVAL_NAME, testFn, wait)
+
+    expect(existInterval(INTERVAL_NAME)).toBeTruthy()
+  })
+
+  it('should be false if interval does not exist and not on initial state', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createInterval(INTERVAL_NAME, testFn, wait)
+
+    expect(existInterval(OTHER_INTERVAL_NAME)).toBeFalsy()
+  })
+})
+
+
+describe('getInterval', () => {
+  it('should exist', () => {
+    expect(getInterval).not.toBeUndefined()
+  })
+
+  it('should be a function', () => {
+    expect(getInterval())
+  })
+
+  it('should be undefined if name does not exist', () => {
+    _resetEnv()
+    expect(getInterval(INTERVAL_NAME)).toBeUndefined()
+  })
+
+  it('should not to be undefined if name exist', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createInterval(INTERVAL_NAME, testFn, wait)
+
+    expect(getInterval(INTERVAL_NAME)).not.toBeUndefined()
+  })
+
+  it('should be undefined if name does not exist and not initial state', () => {
+    _resetEnv()
+    const testFn = jest.fn()
+    createInterval(INTERVAL_NAME, testFn, wait)
+
+    expect(getInterval(OTHER_INTERVAL_NAME)).toBeUndefined()
   })
 })
 
