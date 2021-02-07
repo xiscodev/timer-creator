@@ -1,5 +1,5 @@
+import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore  } from '../Helpers/store'
 import launchCallback from '../Helpers/callback'
-import { _clearStore, initializeStore, pushToStore, isStored, getStoredItem, removeFromStore } from '../Helpers/store'
 
 /**
  * @access private
@@ -29,25 +29,6 @@ const _removeInterval = (name) => {
 
 /**
  * @access public
- * @function createInterval
- * @description Creates and _store interval object with given name,
- * to execute callback function on the waitTime specified with given args.
- * @param {string} name
- * @param {Function} callback
- * @param {TimeUnit} waitTime
- * @param {string|Array|NULL} args
- */
-const createInterval = (name, callback, waitTime, args) => {
-  if (!existInterval(name)) {
-    const reference = setInterval(() => {
-      launchCallback(callback, args)
-    }, waitTime)
-    pushToStore(_store, name, reference)
-  }
-}
-
-/**
- * @access public
  * @function existInterval
  * @description Checks whether exist interval with given name.
  * @param {string} name
@@ -70,6 +51,25 @@ const getInterval = (name) => {
 
 /**
  * @access public
+ * @function createInterval
+ * @description Creates and _store interval object with given name,
+ * to execute callback function on the waitTime specified with given args.
+ * @param {string} name
+ * @param {Function} callback
+ * @param {TimeUnit} waitTime
+ * @param {string|Array|NULL} args
+ */
+const createInterval = (name, callback, waitTime, args) => {
+  if (!existInterval(name)) {
+    const reference = setInterval(() => {
+      launchCallback(callback, args)
+    }, waitTime)
+    pushToStore(_store, name, reference)
+  }
+}
+
+/**
+ * @access public
  * @function destroyInterval
  * @description Destroy interval with given name and removes it from _store.
  * @param {string} name
@@ -85,8 +85,8 @@ export {
   _store,
   _resetStore,
   _removeInterval,
-  createInterval,
   existInterval,
   getInterval,
+  createInterval,
   destroyInterval,
 }
