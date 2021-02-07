@@ -1,82 +1,94 @@
-import { pushToStore, getStoredItem, isStored, removeFromStore } from 'Helpers/store'
-import launchCallback from 'Helpers/callback'
+import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore  } from '../Helpers/store'
+import launchCallback from '../Helpers/callback'
 
 /**
  * @access private
  * @description Store for timeouts.
- * @type {Array}
+ * @type {Map}
  */
-const timeoutStore = []
+const _store = initializeStore()
 
 /**
- * @access public
- * @function existTimeout
- * @description Checks whether exist timeout with given timeoutName.
- * @param {string} timeoutName
- * @returns {boolean}
+ * @access private
+ * @function _resetStore
+ * @description Clears timeout store.
  */
-const existTimeout = (timeoutName) => {
-  return isStored(timeoutStore, timeoutName)
+const _resetStore = () => {
+  _clearStore(_store)
 }
 
 /**
  * @access private
  * @function _removeTimeout
- * @description Removes stored timeout with given timeoutName.
- * @param {string} timeoutName
+ * @description Removes stored timeout with given name.
+ * @param {string} name
  */
-const _removeTimeout = (timeoutName) => {
-  removeFromStore(timeoutStore, timeoutName)
+const _removeTimeout = (name) => {
+  removeFromStore(_store, name)
+}
+
+/**
+ * @access public
+ * @function existTimeout
+ * @description Checks whether exist timeout with given name.
+ * @param {string} name
+ * @returns {boolean}
+ */
+const existTimeout = (name) => {
+  return isStored(_store, name)
 }
 
 /**
  * @access public
  * @function getTimeout
- * @description Retrieves timeout value for given timeoutName.
- * @param {string} timeoutName
+ * @description Retrieves timeout value for given name.
+ * @param {string} name
  * @returns {number}
  */
-const getTimeout = (timeoutName) => {
-  return getStoredItem(timeoutStore, timeoutName)
+const getTimeout = (name) => {
+  return getStoredItem(_store, name)
 }
 
 /**
  * @access public
  * @function createTimeout
- * @description Creates and store timeout object with given timeoutName,
+ * @description Creates and store timeout object with given name,
  * to execute callback function on the amountTime specified with given args,
  * its removed from store when callback is executed.
- * @param {string} timeoutName
+ * @param {string} name
  * @param {TimeUnit} amountTime
  * @param {Function} callback
  * @param {string|Array|NULL} args
  */
-const createTimeout = (timeoutName, amountTime, callback, args) => {
-  if (!existTimeout(timeoutName)) {
+const createTimeout = (name, callback, waitTime, args) => {
+  if (!existTimeout(name)) {
     const timeoutId = setTimeout(() => {
-      _removeTimeout(timeoutName) // remove from store on timeout
+      _removeTimeout(name) // remove from store on timeout
       launchCallback(callback, args)
-    }, amountTime)
-    pushToStore(timeoutStore, timeoutName, timeoutId)
+    }, waitTime)
+    pushToStore(_store, name, timeoutId)
   }
 }
 
 /**
  * @access public
  * @function destroyTimeout
- * @description Destroy timeout with given timeoutName and removes it from store.
- * @param {string} timeoutName
+ * @description Destroy timeout with given name and removes it from store.
+ * @param {string} name
  */
-const destroyTimeout = (timeoutName) => {
-  if (existTimeout(timeoutName)) {
-    clearTimeout(getTimeout(timeoutName))
-    _removeTimeout(timeoutName)
+const destroyTimeout = (name) => {
+  if (existTimeout(name)) {
+    clearTimeout(getTimeout(name))
+    _removeTimeout(name)
   }
 }
 
 export {
+  _store,
+  _resetStore,
+  _removeTimeout,
   existTimeout,
   getTimeout,
   createTimeout,
-  destroyTimeout
+  destroyTimeout,
 }
