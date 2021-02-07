@@ -53,17 +53,17 @@ const getTimeout = (name) => {
  * @access public
  * @function createTimeout
  * @description Creates and store timeout object with given name,
- * to execute callback function on the amountTime specified with given args,
+ * to execute callback function on the waitTime specified with given args,
  * its removed from store when callback is executed.
  * @param {string} name
- * @param {TimeUnit} amountTime
  * @param {Function} callback
+ * @param {TimeUnit} waitTime
  * @param {string|Array|NULL} args
  */
 const createTimeout = (name, callback, waitTime, args) => {
   if (!existTimeout(name)) {
     const timeoutId = setTimeout(() => {
-      _removeTimeout(name) // remove from store on timeout
+      _removeTimeout(name)
       launchCallback(callback, args)
     }, waitTime)
     pushToStore(_store, name, timeoutId)
