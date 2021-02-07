@@ -1,58 +1,53 @@
-/* eslint-disable no-prototype-builtins */
+const _isMap = (toEvaluate) => {
+  return !!toEvaluate && toEvaluate.toString() === '[object Map]'
+}
+
+const _getStoreSize = (store) => {
+  return _isMap(store) 
+    ? store.size
+    : null
+}
+
+const _isEmptyStore = (store) => {
+  return _isMap(store)
+    ? _getStoreSize(store) === 0
+    : null
+}
+
+const _clearStore = (store) => {
+  _isMap(store) && store.clear()
+}
+
+const initializeStore  = () => {
+  return new Map()
+}
+
+const pushToStore = (store, pushableKey, pushableItem) => {
+  if (!!store && !!pushableKey && !!pushableItem) {
+    _isMap(store) && store.set(pushableKey, pushableItem)
+  }
+}
+
+const getStoredItem = (store, storedKey) => {
+  return _isMap(store) && store.get(storedKey)
+}
+
 const isStored = (store, storedKey) => {
-  let exist = false
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      exist = true
-      break
-    }
-  }
-  return exist
-}
-
-const getStoredIndex = (store, storedKey) => {
-  let storedIndex = null
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      storedIndex = index
-      break
-    }
-  }
-  return storedIndex
-}
-
-const getStoredValue = (store, storedKey) => {
-  let storedValue = null
-  for (let index = 0; index < store.length; index++) {
-    const stored = store[index]
-    if (stored.hasOwnProperty(storedKey)) {
-      storedValue = store[index][storedKey]
-      break
-    }
-  }
-  return storedValue
-}
-
-const getStoredObject = (store, storedIndex) => {
-  return store[storedIndex]
-}
-
-const pushToStore = (store, objectToStore) => {
-  store.push(objectToStore)
+  return _isMap(store) && store.has(storedKey)
 }
 
 const removeFromStore = (store, storedKey) => {
-  const storedIndex = getStoredIndex(store, storedKey)
-  storedIndex !== null && store.splice(storedIndex, 1)
+  _isMap(store) && store.delete(storedKey)
 }
 
 export {
-  isStored,
-  getStoredIndex,
-  getStoredValue,
-  getStoredObject,
+  _isMap,
+  _getStoreSize,
+  _isEmptyStore,
+  _clearStore,
+  initializeStore,
   pushToStore,
-  removeFromStore
+  getStoredItem,
+  isStored,
+  removeFromStore,
 }
