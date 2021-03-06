@@ -8,7 +8,7 @@ import {
   getStoredItem,
   isStored,
   removeFromStore,
-} from './store'
+} from 'Helpers/store'
 
 // ENVIRONMENT VARIABLES
 let store = new Map()

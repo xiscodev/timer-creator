@@ -6,6 +6,7 @@ const launchCallback = (callback, args) => {
   if (_isFunction(callback)) {
     if (args) {
       if (Array.isArray(args) && args.length !== 0) {
+        // eslint-disable-next-line standard/no-callback-literal
         callback(...args)
       } else {
         callback(args)
