@@ -6,7 +6,7 @@ import {
   existTimeout,
   getTimeout,
   destroyTimeout,
-} from './timeout'
+} from 'Creators/timeout'
 
 // ENVIRONMENT VARIABLES
 jest.useFakeTimers()

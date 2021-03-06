@@ -6,7 +6,7 @@ import {
   existInterval,
   getInterval,
   destroyInterval,
-} from './interval'
+} from 'Creators/interval'
 
 // ENVIRONMENT VARIABLES
 jest.useFakeTimers()

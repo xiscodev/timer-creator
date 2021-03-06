@@ -9,11 +9,13 @@
   "plugins": [
     "import",
     "jest",
+    "jsdoc",
     "node",
     "promise",
-    "jsdoc"
+    "standard"
   ],
   "extends": [
+    "standard",
     "eslint:recommended",
     "plugin:jsdoc/recommended"
   ],
@@ -51,5 +53,6 @@
     "import/resolver": {"node": {"path": ["src"] }},
     "import/extensions": [".js"],
     "import/ignore": ["node_modules"]
-  }
+  },
+  "ignorePatterns": "*.spec.js"
 }

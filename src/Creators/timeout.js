@@ -1,5 +1,5 @@
-import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore  } from '../Helpers/store'
-import launchCallback from '../Helpers/callback'
+import { initializeStore, _clearStore, removeFromStore, isStored, getStoredItem, pushToStore } from 'Helpers/store'
+import launchCallback from 'Helpers/callback'
 
 /**
  * @access private

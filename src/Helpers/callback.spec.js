@@ -1,4 +1,4 @@
-import launchCallback from './callback'
+import launchCallback from 'Helpers/callback'
 
 describe('launchCallback', () => {
   it('should exist', () => {

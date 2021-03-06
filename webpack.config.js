@@ -3,11 +3,12 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 const SRC_DIR = path.resolve(__dirname, 'src')
 const DIST_DIR = path.resolve(__dirname, 'dist')
+const NODE_DIR = path.resolve(__dirname, 'node_modules')
 const isDev = process.env.NODE_ENV === 'development'
 
 const config = {
   mode: process.env.NODE_ENV,
-  entry: SRC_DIR + '/main.js',
+  entry: `${SRC_DIR}/main.js`,
   devtool: isDev ? 'source-map' : 'none',
   output: {
     path: DIST_DIR,
@@ -16,17 +17,26 @@ const config = {
   },
   resolve: {
     extensions: ['.js'],
-    modules: [SRC_DIR, 'node_modules'],
+    modules: [SRC_DIR, NODE_DIR],
+    alias: {
+      Constants: `${SRC_DIR}/Constants`,
+      Creators: `${SRC_DIR}/Creators`,
+      Helpers: `${SRC_DIR}/Helpers`,
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js$/i,
         exclude: [
           /node_modules/,
           /\.spec\.js/,
         ],
-        use: ['eslint-loader'],
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+          cache: !isDev,
+        },
       },
     ],
   },
@@ -34,8 +44,13 @@ const config = {
 if (!isDev) {
   config.optimization = {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin({
+      parallel: true,
+    })],
   }
 }
+
+console.log('NODE_ENV', process.env.NODE_ENV)
+console.log('devtool', config.devtool)
 
 module.exports = config

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "Constants/*": ["src/Constants/*"],
+      "Creators/*": ["src/Creators/*"],
+      "Helpers/*": ["src/Helpers/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

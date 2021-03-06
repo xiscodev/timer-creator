@@ -3,7 +3,7 @@ const _isMap = (toEvaluate) => {
 }
 
 const _getStoreSize = (store) => {
-  return _isMap(store) 
+  return _isMap(store)
     ? store.size
     : null
 }
@@ -18,7 +18,7 @@ const _clearStore = (store) => {
   _isMap(store) && store.clear()
 }
 
-const initializeStore  = () => {
+const initializeStore = () => {
   return new Map()
 }
 
